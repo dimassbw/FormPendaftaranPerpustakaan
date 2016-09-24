@@ -3,13 +3,19 @@ package id.sch.smktelkom_mlg.tugas01.xiirpl1024.formpendaftaran;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
@@ -21,7 +27,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     RadioGroup rgGender;
     int nAlasan;
     CheckBox cb1, cb2, cb3, cb4, cb5;
-
+    Spinner spProvinsi, spKota;
+    String[][] arKota = {{"Jakarta Barat", "Jakata Pusat", "Jakarta Selatan", "Jakarta Timur", "Jakarta Utara"},
+            {"Bandung", "Cirebon", "Bekasi"}, {"Semarang", "Magelang", "Surakarta"}, {"Surabaya", "Malang", "Blitar"}, {"Denpasar"}};
+    ArrayList<String> listKota = new ArrayList();
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +50,36 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         cb4 = (CheckBox) findViewById(R.id.checkBox4);
         cb5 = (CheckBox) findViewById(R.id.checkBox5);
         tvAlasan = (TextView) findViewById(R.id.textViewAlasan);
+        spProvinsi = (Spinner) findViewById(R.id.spinnerProvinsi);
+        spKota = (Spinner) findViewById(R.id.spinnerKota);
 
         cb1.setOnCheckedChangeListener(this);
         cb2.setOnCheckedChangeListener(this);
         cb3.setOnCheckedChangeListener(this);
         cb4.setOnCheckedChangeListener(this);
         cb5.setOnCheckedChangeListener(this);
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listKota);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spKota.setAdapter(adapter);
+
+        spProvinsi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                listKota.clear();
+                listKota.addAll(Arrays.asList(arKota[pos]));
+                //adapter.setProvinsi((String)spProvinsi.getItemAtPosition(pos));
+                adapter.notifyDataSetChanged();
+                spKota.setSelection(0);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
         bOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 NameYearHP();
                 Gender();
                 Alasan();
+                Asal();
                 write();
 
             }
@@ -63,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     private void write() {
         tvHasil.setText(hasil);
         hasil = "";
+    }
+
+    private void Asal() {
+        hasil += "Asal      : " + spKota.getSelectedItem().toString() + ", " + spProvinsi.getSelectedItem().toString();
     }
 
     private void NameYearHP() {

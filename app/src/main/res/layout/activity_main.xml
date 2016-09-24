@@ -15,22 +15,12 @@
         tools:context="id.sch.smktelkom_mlg.tugas01.xiirpl1024.formpendaftaran.MainActivity">
 
         <TextView
-            android:id="@+id/textView"
-            style="@style/Base.TextAppearance.AppCompat.Headline"
-            android:layout_width="351dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Form Pendaftaran"
-            android:textColor="@color/abc_background_cache_hint_selector_material_dark" />
-
-        <TextView
             android:id="@+id/textView4"
             style="@style/Base.TextAppearance.AppCompat.Headline"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:text="Anggota Perpustakaan Telkom"
-            android:textColor="@color/abc_background_cache_hint_selector_material_dark" />
+            android:textColor="@android:color/black" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -162,6 +152,23 @@
             android:checked="false"
             android:text="Karena sertifikat ISO" />
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Daerah Asal" />
+
+        <Spinner
+            android:id="@+id/spinnerProvinsi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/provinsi" />
+
+        <Spinner
+            android:id="@+id/spinnerKota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/buttonOK"
