@@ -4,16 +4,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     EditText etNama, etKelas, etNoHP;
     Button bOK;
-    TextView tvHasil;
+    TextView tvHasil, tvAlasan;
     String hasil = "";
+    RadioGroup rgGender;
+    int nAlasan;
+    CheckBox cb1, cb2, cb3, cb4, cb5;
 
 
     @Override
@@ -26,12 +33,27 @@ public class MainActivity extends AppCompatActivity {
         etNoHP = (EditText) findViewById(R.id.editTextNoHP);
         bOK = (Button) findViewById(R.id.buttonOK);
         tvHasil = (TextView) findViewById(R.id.textViewHasil);
+        rgGender = (RadioGroup) findViewById(R.id.RadioGroupGender);
+        cb1 = (CheckBox) findViewById(R.id.checkBox1);
+        cb2 = (CheckBox) findViewById(R.id.checkBox2);
+        cb3 = (CheckBox) findViewById(R.id.checkBox3);
+        cb4 = (CheckBox) findViewById(R.id.checkBox4);
+        cb5 = (CheckBox) findViewById(R.id.checkBox5);
+        tvAlasan = (TextView) findViewById(R.id.textViewAlasan);
+
+        cb1.setOnCheckedChangeListener(this);
+        cb2.setOnCheckedChangeListener(this);
+        cb3.setOnCheckedChangeListener(this);
+        cb4.setOnCheckedChangeListener(this);
+        cb5.setOnCheckedChangeListener(this);
 
         bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 NameYearHP();
+                Gender();
+                Alasan();
                 write();
 
             }
@@ -94,6 +116,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void Gender() {
+        String gender = null;
+
+        if (rgGender.getCheckedRadioButtonId() != -1) {
+            RadioButton rb = (RadioButton)
+                    findViewById(rgGender.getCheckedRadioButtonId());
+            gender = rb.getText().toString();
+        }
+        if (gender == null) {
+            hasil += "Belum memilih gender";
+        } else {
+            hasil += "Gender  : " + gender;
+        }
+        hasil += "\n";
+    }
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        if (isChecked) nAlasan += 1;
+        else nAlasan -= 1;
+
+        tvAlasan.setText("Alasan mengikuti Perpustakaan (" + nAlasan + " terpilih)");
+    }
+
+    private void Alasan() {
+        String alasan = "Alasan mengikuti Perpustakaan:\n";
+        int startlen = alasan.length();
+        if (cb1.isChecked()) alasan += cb1.getText() + "\n";
+        if (cb2.isChecked()) alasan += cb2.getText() + "\n";
+        if (cb3.isChecked()) alasan += cb3.getText() + "\n";
+        if (cb4.isChecked()) alasan += cb4.getText() + "\n";
+        if (cb5.isChecked()) alasan += cb5.getText() + "\n";
+
+        if (alasan.length() == startlen) alasan = "Tidak ada pada pilihan";
+
+        hasil += alasan + "\n";
+    }
 
 }
 
